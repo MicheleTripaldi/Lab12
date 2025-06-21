@@ -1,6 +1,7 @@
 import flet as ft
 
 from database.DAO import DAO
+from model import model
 
 
 class Controller:
@@ -53,12 +54,33 @@ class Controller:
 
 
 
-
-
-
-
     def handle_volume(self, e):
-        pass
+        country = self._view.ddcountry.value
+        anno = self._view.ddyear.value
+
+        if country is None or country == "":
+            self._view.create_alert("Seleziona una nazione")
+            return
+
+        if anno is None or anno == "":
+            self._view.create_alert("Seleziona un anno")
+            return
+        # converto in intero
+        try:
+            anno = int(anno)
+        except ValueError:
+            self._view.txt_result.controls.clear()
+            self._view.txt_result.controls.append(ft.Text("data non valida"))
+            self._view.update_page()
+            return
+
+        self._model.buildGraph(country, anno)
+        self._view.txt_result.controls.append(ft.Text("Grafo correttamente creato"))
+        volumi = self._model.getVolumi()
+        for v in volumi:
+            self._view.txt_result.controls.append(ft.Text(f"I volumi sono:{v}"))
+
+        self._view.update_page()
 
 
     def handle_path(self, e):

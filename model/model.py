@@ -17,11 +17,24 @@ class Model:
             self._idMapRetailer[r.Retailer_code] = r
         self._grafo.add_nodes_from(self._retailer)
         self.getAllEdges(country,anno)
+        return self._grafo
 
     def getAllEdges(self,country,anno):
         edges = DAO.getAllEdges(country,anno,self._idMapRetailer)
         for ed in edges:
             self._grafo.add_edge(ed.nodo1,ed.nodo2,weight = ed.peso)
+
+    def getVolumi(self):
+        volume_vendita = {}
+        for retailer in self._grafo.nodes:
+            volume = sum(data["weight"] for _, _, data in self._grafo.edges(retailer, data=True))
+        # Ordina per volume decrescente
+        retailer_ordinati = sorted(volume_vendita.items(), key=lambda x: x[1], reverse=True)
+        return retailer_ordinati
+
+
+    def getGradoNodo(self, nodo):
+        return self._grafo.degree(nodo)
 
 
     def getNumNodi(self):
