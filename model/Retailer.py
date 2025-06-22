@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-
 @dataclass
 class Retailer:
     Retailer_code: int
@@ -16,3 +15,6 @@ class Retailer:
 
     def __str__(self):
         return f"{self.Retailer_code} - {self.Retailer_name}"
+
+
+

@@ -5,6 +5,6 @@ from model.Retailer import Retailer
 
 @dataclass
 class Arco:
-    nodo1:Retailer
-    nodo2:Retailer
+    nodo1: Retailer
+    nodo2: Retailer
     peso: int
